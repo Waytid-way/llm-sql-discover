@@ -1,108 +1,163 @@
-# LLM SQL Discover V1 — File-Boundary and Sequential Execution Policy
+# LLM SQL Discover V1 — Epic-Anchored File-Boundary Execution Policy
 
-**Status:** Normative implementation-planning amendment  
-**Applies to:** GitHub Issues #11–#27 and the V1 Implementation Plan  
-**Purpose:** Prevent file ownership collisions, stale parallel branches, hidden shared-file edits, and semantic drift between coding-agent sessions.
+**Status:** Normative implementation-governance amendment  
+**Applies to:** Epic `#27`, every approved implementation Round, and every executable sub-issue  
+**Purpose:** Preserve file ownership, fresh-main planning, sequential integration, and semantic correctness while creating future Issues incrementally.
 
-## 1. Decomposition rule
+## 1. Permanent Epic anchor
 
-Implementation work is decomposed by both capability and exact file/module ownership. An Issue is valid only when its production write set is exclusive. The machine-readable authority is `docs/superpowers/plans/llm-sql-discover/file-touch-map.json`.
+Epic `#27` is the sole V1 project anchor. It owns the fixed mission, scope, non-goals, Definition of Done, Architecture Horizon, current Round, planning anchor SHA, Discovery Ledger, completed-round ledger, and Epic Completion Gate.
 
-A task may read dependencies from prior tasks, but it may not modify their files. If implementation reveals a required cross-boundary change, work stops until the plan, Issue body, and ownership map are amended.
+The Epic must not predeclare exact future files, interfaces, tests, or branches that have not been validated against the latest verified `main` state.
 
-## 2. Resolved hotspots
+## 2. Incremental Round decomposition
 
-The original plan had one direct overlap and one latent hotspot:
+Implementation is decomposed in Rounds. Each Round:
 
-- `src/sqltrace/cli.py` was created by Task 04 and modified by Task 15.
-- a shared `src/sqltrace/config.py` would accumulate snapshot, LLM, target, and runtime policy.
+- is anchored to one exact verified `main` SHA;
+- contains one to three native sub-issues;
+- defines a strict execution order;
+- has a Round-specific file-touch map;
+- activates only one Issue at a time;
+- closes with a Round completion report.
 
-The revised boundary is:
+Round R1 contains only Issue `#11`, anchored to `4d65c683c8cc61d8de399479a4799560b7675685`.
 
-- Issue #11 owns the stable `src/sqltrace/cli.py` registry shell and `src/sqltrace/commands/registry.py`.
-- Issue #14 adds only `src/sqltrace/commands/bootstrap.py`.
-- Issue #25 adds only `src/sqltrace/commands/reporting.py`, `inspection.py`, and `benchmark.py`.
-- Configuration is split into `config/base.py`, `snapshot.py`, `llm.py`, `targets.py`, and `runtime.py`, each owned by one Issue.
+Issues `#12`–`#26` are superseded planning history. Their capabilities remain in the Architecture Horizon, but their bodies, paths, and test commands are not executable instructions.
 
-## 3. Strict total merge order
+## 3. Round Transition Gate
 
-The V1 implementation merge order is:
+A new Round must not be proposed or created until:
 
-```text
-#11 -> #12 -> #13 -> #14 -> #15 -> #16 -> #17 -> #18
-    -> #19 -> #20 -> #21 -> #22 -> #23 -> #24 -> #25 -> #26
-```
+1. every current-Round Issue has independent Senior Expert Peer Review PASS;
+2. every approved PR has merged sequentially;
+3. post-merge smoke verification passes on the resulting `main`;
+4. the resulting remote `main` SHA is recorded;
+5. no Critical or Important finding remains;
+6. no implementation PR remains open or queued;
+7. the Discovery Ledger is triaged;
+8. the V1 Definition of Done remains fixed or has an approved amendment;
+9. governance and ownership maps are internally consistent.
 
-Only one implementation Issue may be active. A successor branch is created only after the predecessor is merged and the post-merge smoke gate passes on `main`.
+## 4. Decomposition Planner rules
 
-This total order is stricter than the dependency DAG by design. It trades parallel throughput for lower conflict and semantic-drift risk during initial architecture construction.
+After the transition gate passes, the Planner must:
 
-## 4. Single-writer hotspots
+1. inspect the latest merged codebase and tests;
+2. record the exact `planning_anchor_sha`;
+3. compare remaining Architecture Horizon capabilities with the Epic Definition of Done;
+4. choose the smallest coherent next capability slice;
+5. propose no more than three Issues;
+6. build a file-touch conflict matrix before Issue creation;
+7. define strict predecessor and native blocked-by relationships;
+8. specify validation, error, retry, tests, semantic review, discovery handling, and post-merge smoke gates;
+9. obtain human approval;
+10. create native sub-issues and activate only the first.
 
-| File or family | Owner | Rule after owner merge |
-|---|---:|---|
-| `AGENTS.md` | planning governance | Change only through explicit governance amendment. |
-| `pyproject.toml` | #11 | Frozen; later dependency change requires an amended Issue. |
-| `src/sqltrace/cli.py` | #11 | Frozen registry shell; add command modules instead. |
-| `contracts/compatibility-matrix.json` | #11 | Normative change only. |
-| `contracts/reason-codes.json` | #11 | Normative reason-code change only. |
-| `migrations/versions/0001_initial_state.py` | #12 | Frozen; later schema changes use a new migration. |
-| `src/sqltrace/state/models.py` | #12 | Later tasks consume the schema; no silent table additions. |
-| `benchmarks/v1/benchmark-manifest.yaml` | #26 | Release corpus authority. |
+Archived Issue bodies may be consulted as historical analysis but must not be copied without revalidating every assumption against the planning anchor.
 
-## 5. Required Issue sections
+## 5. File-boundary and single-writer authority
 
-Each Issue must include:
+An executable Issue is valid only when its production write set is exclusive within the active Round. The machine-readable authority is `docs/superpowers/plans/llm-sql-discover/file-touch-map.json`.
 
-1. Merge predecessor and start gate.
-2. Exclusive production and test write sets.
-3. Read-only dependencies.
-4. Input validation rules.
-5. Error/state behavior.
-6. Timeout/retry/cancellation policy or an explicit “not applicable”.
-7. Focused tests and bundle regression gate.
-8. Coverage/fixture minimums.
-9. Semantic-review checklist.
-10. Non-goals and forbidden edits.
+- Production and test write sets are declared separately.
+- All undeclared files are read-only.
+- A required cross-boundary change stops the task until the Issue and Round map are amended.
+- Broad staging such as `git add -A` is prohibited.
+- A hotspot has one owner and freezes after its owner merges unless an approved amendment changes the rule.
+- No future-Round branch may be created before human approval of that Round.
 
-A global rule is not a substitute for issue-specific behavior. Each Issue must state the failure modes relevant to its subsystem.
+## 6. Required executable Issue sections
 
-## 6. Review and merge protocol
+Every executable sub-issue must contain:
 
-For each Issue:
+1. Parent Epic and verified native relationship status.
+2. Round ID and planning anchor SHA.
+3. Capability slice, immediate predecessor, and native blocked-by dependencies.
+4. Start and merge gates.
+5. Exclusive production and test write sets.
+6. Read-only dependencies and frozen hotspots.
+7. Normative Contract IDs.
+8. Input validation rules.
+9. Error and state behavior.
+10. Timeout, retry, cancellation, and idempotency policy.
+11. Focused tests, regression tests, fixture expectations, and exact verification commands.
+12. Semantic-review checklist.
+13. Discovery handling rules.
+14. Post-merge smoke gate.
+15. Commit boundary, non-goals, and forbidden edits.
 
-1. Create a fresh branch/worktree from current `main`.
-2. Verify the predecessor Issue is closed and merged.
-3. Confirm all intended files are inside the declared write set.
-4. Execute TDD and focused verification.
-5. Run the bundle regression suite.
-6. Conduct semantic peer review.
-7. Fix all Critical and Important findings.
-8. Rebase on current `main` if it changed; rerun verification.
-9. Merge to `main` as the only queued implementation merge.
-10. Run the post-merge smoke gate on `main` before starting the next Issue.
+An Issue missing any required section is not executable.
 
-## 7. Semantic review baseline
+## 7. Native relationship rule
 
-Reviewers must inspect meaning, not only syntax:
+A Markdown link to Epic `#27` is not equivalent to a native parent/sub-issue relationship.
 
+- The Coding Agent and Reviewer must verify native parent and blocked-by relationships when tooling exposes them.
+- When tooling cannot establish or verify the relationship, the limitation must be recorded explicitly.
+- Implementation remains blocked unless Epic `#27` contains an explicit human-approved temporary exception for the named Issue and Round.
+- Future Rounds must not silently replace native relationships with checklists.
+
+## 8. Discovery classification
+
+Discoveries are recorded before they become Issues:
+
+- **Required in-scope correction:** implement inside the current Issue when required by acceptance criteria and inside its write set.
+- **Out-of-scope blocker:** stop implementation, record it in the Epic Discovery Ledger, obtain human triage, then create or reorder a sub-issue only after approval.
+- **Non-blocking discovery:** record it for the next Round; do not create an Issue immediately.
+- **Normative discovery:** stop and require an approved specification, contract, scope, or Definition-of-Done amendment.
+
+## 9. Review and merge protocol
+
+For each active Issue:
+
+1. create a fresh branch/worktree from eligible current `main`;
+2. verify Round membership, planning-anchor ancestry, native parent, and blocked-by dependencies;
+3. audit intended files against the Round map;
+4. execute TDD and focused verification;
+5. run required regression tests;
+6. conduct independent semantic peer review;
+7. fix every Critical and Important finding;
+8. rerun fresh verification after any new commit;
+9. merge as the only queued implementation PR;
+10. run the post-merge smoke gate on `main`.
+
+A reviewed head SHA must not change after PASS without a new review.
+
+The final Issue of a Round receives `PASS — READY FOR ROUND COMPLETION AND REASSESSMENT`, not permission to implement the next horizon capability automatically.
+
+## 10. Semantic review baseline
+
+Reviewers inspect meaning, not only syntax:
+
+- Round eligibility and planning-anchor ancestry;
+- file ownership and frozen hotspots;
 - exact-source coordinate fidelity;
-- state, transaction, lease, retry, and crash semantics;
+- state, transaction, lease, retry, cancellation, race, and crash semantics;
 - resolver proof authority and ambiguity preservation;
 - SQL reconstruction without guessed fragments;
 - cache keys and invalidation boundaries;
-- request/DTO/parameter lineage correctness;
+- request/DTO/parameter lineage;
 - target-specific null, collation, case, timezone, and pagination behavior;
-- isolation between MySQL and PostgreSQL projections;
-- reproducible report provenance.
+- MySQL/PostgreSQL isolation;
+- reproducible report provenance;
+- discovery classification and future-Round leakage.
 
-## 8. Governance validation
+## 11. Governance validation
 
-Planning self-review must fail when:
+Governance self-review fails when:
 
-- two Issues own the same production path;
+- an archived or future-Round Issue is selectable;
+- a Round lacks an exact planning anchor SHA;
+- more than three Issues are planned in a Round;
+- more than one Issue or PR is active;
+- two active-Round Issues own the same production path;
 - an Issue lacks required execution-contract sections;
-- the numeric merge chain has a gap or cycle;
-- a hotspot is edited outside its owner rule;
-- an Issue has no invalid-input/error test expectation;
-- semantic review is reduced to compile/lint/test status.
+- a native relationship is claimed without verification;
+- an Issue has no invalid-input/error expectation;
+- semantic review is reduced to compile/lint/test status;
+- a new Round is created before the transition gate passes.
+
+## 12. Epic Completion Gate
+
+Zero open sub-issues does not complete Epic `#27`. The Epic closes only when the fixed V1 Definition of Done, all required Architecture Horizon capabilities, production acceptance gates, exact-source gates, resolver-authority gates, target-isolation gates, migration checks, and release benchmark have evidence and no blocking discovery or Critical/Important finding remains.
