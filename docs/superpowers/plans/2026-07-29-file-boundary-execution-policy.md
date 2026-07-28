@@ -21,7 +21,7 @@ Implementation is decomposed in Rounds. Each Round:
 - activates only one Issue at a time;
 - closes with a Round completion report.
 
-Round R1 contains only Issue `#11`, anchored to `4d65c683c8cc61d8de399479a4799560b7675685`.
+Round R1 contains only Issue `#11`. Its authoritative planning anchor SHA is recorded in Epic `#27`, Issue `#11`, and `file-touch-map.json` after governance migration reaches `main`.
 
 Issues `#12`–`#26` are superseded planning history. Their capabilities remain in the Architecture Horizon, but their bodies, paths, and test commands are not executable instructions.
 

@@ -28,7 +28,7 @@ The Architecture and Contract Specification and its approved amendments are norm
 ## Current Round
 
 - Round ID: `R1`
-- Planning anchor SHA: `4d65c683c8cc61d8de399479a4799560b7675685`
+- Planning anchor SHA: `9275a218fc30bdcab278c027a704a7541b8a5447`
 - Parent Epic: `#27`
 - Sole planned Issue: `#11`
 - Native parent status: must be verified before implementation. A Markdown reference is not equivalent to a native sub-issue relationship.

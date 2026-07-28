@@ -42,7 +42,7 @@ Issues `#12`–`#26` are superseded planning history. Their original analysis ma
 ### Round R1
 
 - Parent Epic: `#27`
-- Planning anchor SHA: `4d65c683c8cc61d8de399479a4799560b7675685`
+- Planning anchor SHA: authoritative value recorded in Epic `#27`, Issue `#11`, and `file-touch-map.json`; current value is `9275a218fc30bdcab278c027a704a7541b8a5447`
 - Issue count: 1
 - Sole planned Issue: `#11 — Project scaffold and contract registry`
 - Native parent relationship: must be verified before implementation or covered by an explicit human-approved temporary exception in Epic `#27`

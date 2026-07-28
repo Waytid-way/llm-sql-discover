@@ -108,6 +108,8 @@ A Round MAY contain fewer than three sub-issues when the next capability boundar
 
 Round 1 SHALL contain only Issue `#11`.
 
+The planning anchor is the verified `main` state used to validate and approve the Round. It MUST be an ancestor of the implementation branch base, but it does not need to equal that later base SHA.
+
 ## 6. Mandatory Round Transition Gate
 
 A new Round MUST NOT be planned or created until all conditions are true:
@@ -222,12 +224,12 @@ A discovery that changes the Architecture Specification, Contract semantics, V1 
 Issue `#11` remains open and becomes:
 
 - Round: `R1`;
-- Planning Anchor SHA: `4d65c683c8cc61d8de399479a4799560b7675685`;
+- Planning Anchor SHA: `9275a218fc30bdcab278c027a704a7541b8a5447`, the first verified post-migration governance commit on `main`;
 - Parent Epic: `#27`;
 - Status: sole planned Issue;
 - Successor behavior: after PASS, merge, and smoke verification, enter Round Reassessment instead of selecting `#12` automatically.
 
-Its current file boundary and acceptance criteria remain subject to a final anchor-SHA consistency check before implementation starts.
+Its file boundary and acceptance criteria remain subject to a final anchor-ancestry consistency check before implementation starts.
 
 ### 11.2 Issues #12–#26
 
