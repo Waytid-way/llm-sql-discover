@@ -1,0 +1,31 @@
+{
+  "version": "1.1",
+  "policy": "strict-sequential-single-writer",
+  "merge_order": [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],
+  "tasks": [
+    {"issue":11,"predecessor":null,"write":["pyproject.toml","src/sqltrace/__init__.py","src/sqltrace/cli.py","src/sqltrace/commands/__init__.py","src/sqltrace/commands/registry.py","src/sqltrace/contracts/meta.py","src/sqltrace/contracts/run.py","src/sqltrace/contracts/registry.py","src/sqltrace/contracts/reason_codes.py","src/sqltrace/contracts/compatibility.py","contracts/compatibility-matrix.json","contracts/reason-codes.json","tests/contracts/**","tests/cli/test_command_registry.py"]},
+    {"issue":12,"predecessor":11,"write":["alembic.ini","migrations/env.py","migrations/versions/0001_initial_state.py","src/sqltrace/state/database.py","src/sqltrace/state/models.py","src/sqltrace/state/transitions.py","src/sqltrace/state/repository.py","tests/state/test_transitions.py","tests/state/test_idempotency.py","tests/state/test_leases.py"]},
+    {"issue":13,"predecessor":12,"write":["src/sqltrace/state/events.py","src/sqltrace/state/outbox.py","src/sqltrace/state/segments.py","src/sqltrace/state/reconcile.py","src/sqltrace/state/rebuild.py","tests/state/test_outbox_crashes.py","tests/state/test_segment_repair.py","tests/state/test_rebuild.py"]},
+    {"issue":14,"predecessor":13,"write":["src/sqltrace/snapshot/**","src/sqltrace/config/__init__.py","src/sqltrace/config/base.py","src/sqltrace/config/snapshot.py","src/sqltrace/commands/bootstrap.py","tests/snapshot/**","tests/integration/test_bootstrap_cli.py"]},
+    {"issue":15,"predecessor":14,"write":["src/sqltrace/source/coordinates.py","src/sqltrace/source/encoding.py","src/sqltrace/source/anchors.py","src/sqltrace/analyzers/protocol.py","src/sqltrace/analyzers/supervisor.py","src/sqltrace/contracts/source.py","tests/source/test_coordinates.py","tests/source/test_anchors.py","tests/analyzers/test_protocol.py"]},
+    {"issue":16,"predecessor":15,"write":["sidecars/csharp-analyzer/**","src/sqltrace/analyzers/csharp_client.py","tests/analyzers/test_csharp_structure.py","tests/analyzers/test_csharp_capability.py","tests/fixtures/csharp/**"]},
+    {"issue":17,"predecessor":16,"write":["sidecars/vue-analyzer/**","src/sqltrace/analyzers/vue_client.py","tests/analyzers/test_vue_facts.py","tests/fixtures/vue/**"]},
+    {"issue":18,"predecessor":17,"write":["src/sqltrace/source/unitizer.py","src/sqltrace/source/aggregation.py","src/sqltrace/pipeline/classification.py","src/sqltrace/contracts/analysis.py","tests/source/test_unitizer.py","tests/source/test_aggregation.py","tests/pipeline/test_classification.py"]},
+    {"issue":19,"predecessor":18,"write":["src/sqltrace/config/llm.py","src/sqltrace/llm/**","src/sqltrace/pipeline/per_unit.py","tests/llm/**"]},
+    {"issue":20,"predecessor":19,"write":["src/sqltrace/normalization/**","src/sqltrace/sql/candidates.py","src/sqltrace/sql/reconstruction.py","src/sqltrace/sql/normalization.py","src/sqltrace/contracts/findings.py","src/sqltrace/contracts/sql.py","tests/normalization/**","tests/sql/test_promotion.py","tests/sql/test_reconstruction.py"]},
+    {"issue":21,"predecessor":20,"write":["src/sqltrace/resolver/indexes.py","src/sqltrace/resolver/proofs.py","src/sqltrace/resolver/routes.py","src/sqltrace/resolver/symbols.py","src/sqltrace/resolver/di.py","src/sqltrace/resolver/edges.py","tests/resolver/test_route_proofs.py","tests/resolver/test_symbol_proofs.py","tests/resolver/test_di_proofs.py"]},
+    {"issue":22,"predecessor":21,"write":["src/sqltrace/resolver/body.py","src/sqltrace/resolver/lineage.py","src/sqltrace/resolver/chains.py","src/sqltrace/resolver/no_database.py","src/sqltrace/resolver/verification.py","src/sqltrace/contracts/chains.py","tests/resolver/test_body_lineage.py","tests/resolver/test_chains.py","tests/resolver/test_no_database.py","tests/resolver/test_focused_verification.py"]},
+    {"issue":23,"predecessor":22,"write":["src/sqltrace/config/targets.py","src/sqltrace/sql/schema_context.py","src/sqltrace/sql/target_profiles.py","src/sqltrace/sql/mysql_rules.py","src/sqltrace/sql/postgresql_rules.py","src/sqltrace/sql/conversion.py","src/sqltrace/sql/validation.py","tests/sql/test_schema_context.py","tests/sql/test_mysql_projection.py","tests/sql/test_postgresql_projection.py","tests/sql/test_projection_invalidation.py"]},
+    {"issue":24,"predecessor":23,"write":["src/sqltrace/config/runtime.py","src/sqltrace/pipeline/coordinator.py","src/sqltrace/pipeline/phases.py","src/sqltrace/pipeline/scheduler.py","src/sqltrace/pipeline/fingerprints.py","src/sqltrace/pipeline/invalidation.py","src/sqltrace/observability.py","tests/integration/test_pipeline_e2e.py","tests/integration/test_resume.py","tests/integration/test_invalidation.py","tests/integration/test_budget_pause.py","tests/integration/test_cancellation.py","tests/integration/test_observability.py"]},
+    {"issue":25,"predecessor":24,"write":["src/sqltrace/commands/reporting.py","src/sqltrace/commands/inspection.py","src/sqltrace/commands/benchmark.py","src/sqltrace/reporting/**","tests/reporting/**","tests/integration/test_cli_commands.py"]},
+    {"issue":26,"predecessor":25,"write":["benchmarks/v1/**","src/sqltrace/benchmark/**","tools/build_layer_c_corpus.py","tools/run_release_gate.py","tests/benchmark/**","tests/contracts/test_migrations.py"]}
+  ],
+  "hotspots": {
+    "AGENTS.md": {"owner":"planning-governance","frozen":true},
+    "pyproject.toml": {"owner_issue":11,"frozen":true},
+    "src/sqltrace/cli.py": {"owner_issue":11,"frozen":true,"extension":"src/sqltrace/commands/*.py"},
+    "contracts/compatibility-matrix.json": {"owner_issue":11,"frozen":true},
+    "contracts/reason-codes.json": {"owner_issue":11,"frozen":true},
+    "migrations/versions/0001_initial_state.py": {"owner_issue":12,"frozen":true,"extension":"new migration file"}
+  }
+}
