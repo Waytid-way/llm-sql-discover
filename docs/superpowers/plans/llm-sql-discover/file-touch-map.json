@@ -4,7 +4,7 @@
   "epic": 27,
   "current_round": {
     "round_id": "R1",
-    "planning_anchor_sha": "4d65c683c8cc61d8de399479a4799560b7675685",
+    "planning_anchor_sha": "9275a218fc30bdcab278c027a704a7541b8a5447",
     "max_issues": 3,
     "issue_order": [11],
     "sole_planned_issue": 11,
@@ -17,7 +17,7 @@
       "issue": 11,
       "round_id": "R1",
       "parent_epic": 27,
-      "planning_anchor_sha": "4d65c683c8cc61d8de399479a4799560b7675685",
+      "planning_anchor_sha": "9275a218fc30bdcab278c027a704a7541b8a5447",
       "predecessor": null,
       "blocked_by": [],
       "production_write": [
