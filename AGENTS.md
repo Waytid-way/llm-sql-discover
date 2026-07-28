@@ -2,38 +2,109 @@
 
 ## Project mission
 
-Build the V1 Fresh-Context SQL Discovery & Trace pipeline defined by the normative specification, amendment, implementation plan, and GitHub Epic. V1 discovers and traces source behavior and produces MySQL/PostgreSQL conversion projections. It does not execute APIs/databases or rewrite source code.
+Build the V1 Fresh-Context SQL Discovery & Trace pipeline defined by the normative specification, amendment, Epic #27, and approved governance documents. V1 discovers and traces source behavior and produces MySQL/PostgreSQL conversion projections. It does not execute APIs or databases and does not rewrite source code.
 
 ## Read before any work
 
 1. `docs/superpowers/specs/2026-07-29-fresh-context-sql-discovery-trace-design.md`
 2. `docs/superpowers/specs/2026-07-29-fresh-context-sql-discovery-trace-amendment-v1.1.md`
-3. `docs/superpowers/plans/2026-07-29-llm-sql-discover-implementation-plan.md`
-4. `docs/superpowers/plans/2026-07-29-file-boundary-execution-policy.md`
-5. `docs/superpowers/plans/llm-sql-discover/file-touch-map.json`
-6. The assigned GitHub Issue and all of its dependencies
+3. `docs/superpowers/specs/2026-07-29-epic-anchored-incremental-decomposition-design.md`
+4. `docs/superpowers/plans/2026-07-29-llm-sql-discover-implementation-plan.md`
+5. `docs/superpowers/plans/2026-07-29-file-boundary-execution-policy.md`
+6. `docs/superpowers/plans/llm-sql-discover/file-touch-map.json`
+7. Epic `#27`, the current Round record, and the assigned Issue including comments and dependencies
 
-The specification and amendment are normative. An Issue or implementation detail may not silently change contract semantics.
+The Architecture and Contract Specification and its approved amendments are normative. An Issue, prompt, implementation detail, or discovery may not silently change contract semantics or the V1 Definition of Done.
 
-## Strict sequential workflow
+## Epic-anchored incremental workflow
 
-- Implement Issues in numeric order: `#11 -> #12 -> ... -> #26`.
-- Only one implementation Issue may be active at a time.
-- Merge the current Issue into `main` before starting the next Issue.
-- After every merge, delete or retire the completed worktree/branch and create or rebase the next branch from the new `main`.
-- Do not maintain a queue of implementation branches based on stale `main`.
-- Each Issue must be independently reviewable and end at its declared commit boundary.
+- Epic `#27` is the permanent V1 anchor.
+- Implementation is planned in approved Rounds anchored to an exact verified `main` SHA.
+- A Round contains one to three Issues, but only one implementation Issue may be active or queued for merge.
+- Future-Round Issues are not created until the current Round passes peer review, sequential merge, post-merge smoke verification, and discovery-ledger triage.
+- Archived Issues `#12`–`#26` are planning history and must never be selected for implementation.
+- The implementation plan is an Architecture Horizon for future capability, not permission to implement archived task bodies verbatim.
+
+## Current Round
+
+- Round ID: `R1`
+- Planning anchor SHA: `4d65c683c8cc61d8de399479a4799560b7675685`
+- Parent Epic: `#27`
+- Sole planned Issue: `#11`
+- Native parent status: must be verified before implementation. A Markdown reference is not equivalent to a native sub-issue relationship.
+- Round R1 completes only after #11 receives the final-Round PASS verdict, merges, and passes its post-merge smoke gate.
+
+## Issue eligibility gate
+
+Before starting work, the Coding Agent must verify all of the following:
+
+1. The Issue belongs to the current approved Round.
+2. The Issue is a verified native sub-issue of Epic `#27`, unless an explicit human-approved temporary exception is recorded in the Epic.
+3. The Issue's `planning_anchor_sha` is an ancestor of current `main`.
+4. Every `blocked-by` dependency is closed and merged.
+5. No other implementation Issue or PR is active or queued for merge.
+6. The Issue has a complete execution contract and exclusive file write sets.
+7. The Issue is not archived, superseded, horizon-only, or part of an unapproved future Round.
+
+Failure of any gate blocks implementation. Do not infer that an open Issue is executable.
+
+## Round transition gate
+
+Do not plan or create the next Round until:
+
+- every current-Round Issue has independent Senior Expert Peer Review PASS;
+- every approved PR has merged sequentially;
+- post-merge smoke verification passes on `main`;
+- the resulting remote `main` SHA is recorded;
+- no Critical or Important finding remains;
+- no implementation PR remains open or queued;
+- the Discovery Ledger is triaged;
+- the fixed V1 Definition of Done is unchanged or has an approved amendment;
+- governance documents and file ownership maps are consistent.
 
 ## File-boundary and single-writer rules
 
-- The Issue's `exclusive_write_set` is the complete set of production files it may create or modify.
-- Files outside the declared write set are read-only.
-- A required undeclared edit stops the task. Amend the Issue and `file-touch-map.json` before coding.
-- Never use broad staging such as `git add -A`; stage explicit paths from the Issue.
-- A shared/hotspot file has one owner. Do not edit it from another Issue.
-- `src/sqltrace/cli.py` is owned by Issue #11 and becomes a stable registry shell. Later commands are added under `src/sqltrace/commands/`.
-- Configuration is split by subsystem under `src/sqltrace/config/`; do not recreate a shared `config.py` hotspot.
-- `pyproject.toml`, contract registries, root governance files, and the initial migration are frozen after their owner Issue. Later changes require an explicit amendment or a new migration file.
+- The Issue's exclusive production write set is the complete set of production files it may create or modify.
+- Test files require a separate declared test write set.
+- Files outside declared write sets are read-only.
+- A required undeclared edit stops the task. Amend the Issue and Round file map before coding.
+- Never use broad staging such as `git add -A`; stage explicit authorized paths.
+- A shared or hotspot file has one owner at a time.
+- `src/sqltrace/cli.py` is owned by Round R1 Issue #11 and becomes a stable registry shell. Later commands must be added through isolated command modules.
+- Configuration must be split by subsystem; do not create a generic shared `config.py` hotspot.
+- Root governance files change only through an approved governance migration.
+
+## Required Issue contract
+
+Every executable Issue must state:
+
+- Parent Epic and verified relationship status;
+- Round ID and planning anchor SHA;
+- capability slice, predecessor, and native blocked-by dependencies;
+- merge/start gate;
+- exclusive production and test write sets;
+- read-only dependencies and frozen hotspots;
+- normative Contract IDs;
+- input validation rules;
+- error and state-transition behavior;
+- timeout, cancellation, retry, and idempotency policy;
+- focused tests, regression tests, and exact verification commands;
+- fixture and coverage expectations;
+- semantic-review checklist;
+- discovery handling rules;
+- post-merge smoke gate;
+- commit boundary, non-goals, and forbidden edits.
+
+An Issue missing these fields is not executable.
+
+## Discovery policy
+
+Classify discoveries before creating work:
+
+- **Required in-scope correction:** implement within the current Issue when required by its acceptance criteria and inside its write set.
+- **Out-of-scope blocker:** stop, record it in the Epic Discovery Ledger, obtain human triage, and create or reorder a sub-issue only after approval.
+- **Non-blocking discovery:** record it in the Discovery Ledger for the next Round; do not create an Issue immediately.
+- **Normative discovery:** stop planning and require an approved specification or Definition-of-Done amendment.
 
 ## Architecture invariants
 
@@ -42,77 +113,60 @@ The specification and amendment are normative. An Issue or implementation detail
 - C# analysis is semantic-first with fact-level degradation.
 - Vue parser-local offsets must round-trip to original snapshot bytes before persistence.
 - SQLite state and outbox rows commit atomically.
-- LLM output is advisory/non-authoritative until schema, identity, anchor, ownership, and invariant validation pass.
+- LLM output is advisory and non-authoritative until schema, identity, anchor, ownership, and invariant validation pass.
 - Resolver confidence cannot override missing, ambiguous, or conflicting deterministic proof.
 - SQL candidates must be promoted through normalization before conversion.
 - MySQL and PostgreSQL projections are independently versioned and invalidated.
-- Reports are read-only projections and must not trigger analyzer/provider calls.
+- Reports are read-only projections and must not trigger analyzer or provider calls.
 
-## Required Issue contract
+## Testing and verification
 
-Every implementation Issue must state:
+Use TDD: observe a focused failing test, implement the minimum production-capable correction, pass the focused test, then pass the required regression gate.
 
-- exclusive production write set and test write set;
-- predecessor and start gate;
-- input validation rules;
-- error and state-transition behavior;
-- timeout, cancellation, and retry policy, including when retry is not applicable;
-- focused test commands and bundle regression commands;
-- minimum coverage/fixture expectations;
-- semantic-review checklist;
-- explicit non-goals and forbidden edits.
-
-## Validation and error behavior
-
-- Reject invalid identities, ranges, schema versions, and state transitions deterministically.
-- Preserve reason codes and diagnostics; do not coerce unknown or conflicting data into a successful state.
-- Retry only transient operations explicitly listed by the Issue. Deterministic validation failures are not retryable.
-- Tests must cover success, invalid input, terminal failure, retryable failure where applicable, and idempotent repeat behavior.
-
-## Testing
-
-Use TDD: failing test, observed failure, minimal production-capable implementation, focused pass, bundle regression pass.
-
-Before merge run:
+Before requesting review run:
 
 1. Every command listed in the Issue.
-2. The owning bundle test suite.
-3. Contract/registry checks if public contracts are involved.
+2. The owning Round/bundle regression suite.
+3. Contract and registry checks when public contracts are involved.
 4. `git diff --check`.
-5. A clean-status check limited to declared files.
+5. A changed-file ownership audit.
+6. A clean-status check.
 
-Do not claim completion from partial tests.
+Do not claim completion from partial, previous, inferred, or agent-reported results.
 
 ## Semantic peer review
 
-Review must go beyond compile/lint/test status. Check at minimum:
+Review must go beyond compile, lint, and test status. Check at minimum:
 
-- source byte/line/Unicode coordinate correctness;
-- stale snapshot or stale stage-result use;
-- transaction, lease, crash, cancellation, and race behavior;
-- incorrect promotion of candidate/ambiguous evidence to authoritative evidence;
-- duplicate/dedup and idempotency semantics;
-- cache fingerprint and invalidation boundaries;
-- route, DI, DTO, and parameter-lineage meaning;
+- source byte, line, Unicode-scalar, and UTF-16 coordinate correctness;
+- stale snapshot or stage-result use;
+- transaction, lease, crash, cancellation, retry, and race behavior;
+- false promotion of candidate or ambiguous evidence to authoritative evidence;
+- deduplication and idempotency semantics;
+- cache fingerprints and invalidation boundaries;
+- route, DI, DTO, request-body, parameter, and SQL lineage meaning;
 - timezone, collation, case sensitivity, null semantics, and target-dialect assumptions;
-- cross-target contamination between MySQL and PostgreSQL;
-- report provenance and accidental provider/analyzer calls.
+- MySQL/PostgreSQL isolation;
+- report provenance and accidental provider/analyzer calls;
+- Round membership, planning-anchor ancestry, dependency relationships, and discovery classification.
 
-Critical and Important review findings must be fixed before merge. Minor findings must be recorded or fixed; they may not be silently ignored.
+Critical and Important findings block merge. The final Issue of a Round requires `PASS — READY FOR ROUND COMPLETION AND REASSESSMENT`.
 
 ## Coding conventions
 
 - Python 3.12+, typed public APIs, Pydantic v2 contracts, SQLAlchemy 2/Alembic state.
 - Keep files focused by responsibility. Avoid generic `utils.py` and cross-layer helper dumping grounds.
-- Public names and contract fields must match the specification exactly.
+- Public names and contract fields must match the normative specification.
 - Use deterministic IDs and canonical serialization where required.
-- Keep stdout machine-readable for JSON/JSONL CLI modes; progress and diagnostics go to stderr.
-- Do not add V2 scope, API execution, database execution, source rewriting, or automatic PR creation.
+- Keep stdout machine-readable for JSON/JSONL modes; progress and diagnostics go to stderr.
+- Do not add V2 scope, API execution, database execution, source rewriting, or automatic implementation expansion.
 
 ## Git and merge discipline
 
-- Branch from current `main` only after the predecessor Issue is merged.
-- Rebase before final verification if `main` changed.
-- Merge one Issue at a time.
-- After merge, rerun the predecessor-to-current bundle smoke gate on `main` before opening the next Issue.
-- Do not resolve semantic conflicts by choosing one side of a merge without re-running the relevant acceptance tests.
+- Create a branch/worktree from current `main` only after eligibility gates pass.
+- Rebase before final verification when `main` changes.
+- Merge one implementation Issue at a time.
+- The reviewed head SHA must not change after PASS without a new independent review.
+- After merge, run the declared post-merge smoke gate on `main`.
+- Do not start another Issue until the coordinator authorizes it.
+- When the final Issue of a Round completes, enter Round Reassessment Mode; do not implement the next capability automatically.
