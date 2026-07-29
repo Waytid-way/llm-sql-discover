@@ -1,0 +1,22 @@
+{
+  "codes": [
+    {
+      "code": "POLICY.PLACEHOLDER_IDENTITY",
+      "description": "A placeholder identity was rejected.",
+      "introduced_in": "1.0.0",
+      "namespace": "POLICY",
+      "owner_contract": "CTR-RSN-001",
+      "severity": "ERROR",
+      "terminal_behavior": "QUARANTINED"
+    },
+    {
+      "code": "POLICY.STATIC_ONLY_RUN",
+      "description": "The run policy forbids provider calls.",
+      "introduced_in": "1.0.0",
+      "namespace": "POLICY",
+      "owner_contract": "CTR-RSN-001",
+      "severity": "INFO",
+      "terminal_behavior": "NON_TERMINAL"
+    }
+  ]
+}
