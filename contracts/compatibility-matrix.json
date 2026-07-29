@@ -1,0 +1,42 @@
+{
+  "entries": [
+    {
+      "contract_id": "CTR-RQR-001",
+      "current": true,
+      "invalidates_stages": [],
+      "lossless": true,
+      "readable": true,
+      "recompute_required": false,
+      "requires_revalidation": false,
+      "version": "1.0.0",
+      "writable": true
+    },
+    {
+      "contract_id": "CTR-RUN-001",
+      "current": false,
+      "invalidates_stages": [
+        "snapshot", "inventory", "structural_scan", "unitization", "static_analysis",
+        "semantic_analysis", "normalization", "resolution", "sql_discovery",
+        "conversion_projection", "artifact_generation"
+      ],
+      "lossless": false,
+      "readable": true,
+      "recompute_required": false,
+      "requires_revalidation": true,
+      "migrator": "legacy_run_spec_0_1_0_to_1_0_0",
+      "version": "0.1.0",
+      "writable": false
+    },
+    {
+      "contract_id": "CTR-RUN-001",
+      "current": true,
+      "invalidates_stages": [],
+      "lossless": true,
+      "readable": true,
+      "recompute_required": false,
+      "requires_revalidation": false,
+      "version": "1.0.0",
+      "writable": true
+    }
+  ]
+}
