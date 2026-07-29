@@ -133,6 +133,12 @@ Before requesting review run:
 6. A clean-status check.
 
 Do not claim completion from partial, previous, inferred, or agent-reported results.
+## Reviewer handoff
+
+- The Coding Agent MUST NOT spawn or dispatch an independent Peer Reviewer after implementation.
+- After verification, the Coding Agent MUST provide a copyable review handoff report containing the exact repository, Issue, Round, base/head SHAs, changed-file ownership audit, TDD evidence, verification commands/results, acceptance matrix, semantic checklist, discoveries, risks, and known limits.
+- The repository maintainer is responsible for forwarding that report to the independent Senior Expert Peer Reviewer.
+- The independent Senior Expert Peer Review and its required verdict remain mandatory before merge. The Coding Agent MUST NOT claim review PASS, merge readiness, Round completion, or post-merge smoke success.
 
 ## Semantic peer review
 
@@ -161,6 +167,11 @@ Critical and Important findings block merge. The final Issue of a Round requires
 - Keep stdout machine-readable for JSON/JSONL modes; progress and diagnostics go to stderr.
 - Do not add V2 scope, API execution, database execution, source rewriting, or automatic implementation expansion.
 
+## Commit identity
+
+- New implementation commits MUST use committer identity `codex`.
+- Before committing, the Coding Agent MUST verify the effective `user.name` and `user.email` for the commit and report them.
+- Existing commits are immutable; this rule applies only to commits created after this governance change.
 ## Git and merge discipline
 
 - Create a branch/worktree from current `main` only after eligibility gates pass.
